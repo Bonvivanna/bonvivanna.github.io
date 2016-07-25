@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>D3</title>
+
+	<style>
+		body {
+			background-color: #8AA29E;
+			font-family: sans-serif;
+		}
+
+		#tip {
+			background: #DB5461;
+			color: #E3F2FD;
+			opacity: 0;
+			padding: 5px;
+			position: absolute;
+			transition: opacity 350ms;
+		}
+
+		#tip.visible {
+			opacity: 1;
+		}
+
+		path {
+		    stroke: #DB5461;
+		    stroke-width: 2;
+		    fill: none;
+		}
+
+		circle {
+			fill: #E3F2FD;
+			cursor: pointer;
+			transition: r 350ms;
+		}
+
+		circle.bigger {
+			r: 7;
+		}
+
+		.axis path,
+		.axis line {
+		    fill: none;
+		    stroke: #686963;
+		    stroke-width: 1;
+		    shape-rendering: crispEdges;
+		}
+	</style>
+</head>
+<body>
+	<span id="tip"></span>
+	<p>TOTAL: <span id="total">0</span></p>
+	<p>MAX: <span id="max">0</span></p>
+
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
