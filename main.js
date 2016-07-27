@@ -19,6 +19,11 @@ function getData () {
 			date: new Date('07-22-2016'),
 			action: 1,
 			location: 'HOME'
+		},
+		{
+			date: new Date('07-26-2016'),
+			action: 1,
+			location: 'HOME'
 		}
 	];
 }
