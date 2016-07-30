@@ -71,7 +71,7 @@ y.domain([0, d3.max(data, function (event) {
 	return event.action;
 })]);
 
-var newData = x.ticks(15).map(function (date){
+var newData = x.ticks(20).map(function (date){
 	var foundEvent;
 
 	for (var i = 0; i < data.length; i++){
@@ -114,7 +114,7 @@ svg.selectAll('dot')
 			var coordinates = d3.mouse(this);
 
 			tip.style.left = coordinates[0] + margin.left + 'px';
-			tip.style.top = coordinates[1] + margin.top * 2 + 'px';
+			tip.style.top = coordinates[1] + margin.top + 'px';
 		}
 	})
 	.on('mouseout', function (event) {
@@ -130,10 +130,6 @@ svg.selectAll('dot')
     .attr('cy', function(event) {
     	return y(event.action);
     });
-
-document.getElementById('max').innerHTML = d3.max(data, function (event) {
-	return event.action;
-});
 
 document.getElementById('total').innerHTML = data.reduce(function (prec, event) {
 	return prec + event.action;
