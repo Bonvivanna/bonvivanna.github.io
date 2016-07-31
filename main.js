@@ -70,7 +70,7 @@ function initCalendar (month) {
 function displayDays (month) {
   var lastDay = 0;
   var daysContent = '<tr>';
-  var daysOffset = new Date(currentMonth + '-1-2016').getDay();
+  var daysOffset = new Date('1/' + currentMonth + '/2016').getDay();
 
   for (var i = 0; i < daysOffset - 1; i++) {
     daysContent += '<td class="disabled"></td>';
@@ -81,7 +81,7 @@ function displayDays (month) {
       daysContent += '<tr>'
     }
 
-    var formattedDate = month + '-' + day + '-2016';
+    var formattedDate = day + '/' + month + '/2016';
     var dayNumber = new Date(formattedDate).getDate();
 
     if (dayNumber > lastDay) {
