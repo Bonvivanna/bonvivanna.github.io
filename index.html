@@ -1,58 +1,132 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>D3</title>
+	<title>CALENDAR</title>
+  <style>
+    body {
+      background-color: #5F6580;
+      font-family: sans-serif;
+    }
 
-	<style>
-		body {
-			background-color: #8AA29E;
-			font-family: sans-serif;
-		}
+    .table-container {
+      padding: 0 1em;
+    }
 
-		#tip {
-			background: #DB5461;
-			color: #E3F2FD;
-			opacity: 0;
-			padding: 5px;
-			position: absolute;
-			transition: opacity 350ms;
-		}
+    .month-selector {
+      color: #FFF;
+      font-size: 1.5em;
+      position: relative;
+      text-align: center;
+      text-transform: uppercase;
+    }
 
-		#tip.visible {
-			opacity: 1;
-		}
+    .button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5em;
+      outline: none;
+      position: absolute;
+      vertical-align: middle;
+    }
 
-		path {
-		    stroke: #DB5461;
-		    stroke-width: 2;
-		    fill: none;
-		}
+    .hidden {
+      display: none;
+    }
 
-		circle {
-			fill: #E3F2FD;
-			cursor: pointer;
-			transition: r 350ms;
-		}
+    .prev-button {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
 
-		circle.bigger {
-			r: 7;
-		}
+    .next-button {
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
 
-		.axis path,
-		.axis line {
-		    fill: none;
-		    stroke: #686963;
-		    stroke-width: 1;
-		    shape-rendering: crispEdges;
-		}
-	</style>
+    .month {
+      display: inline-block;
+    }
+
+    table {
+      border-collapse: collapse;
+      height: 100%;
+      table-layout: fixed;
+      text-align: center;
+      width: 100%;
+    }
+
+    tbody::before {
+        content: '-';
+        display: block;
+        line-height: 1em;
+        color: transparent;
+    }
+
+    thead th {
+      color: #FFF;
+      text-transform: uppercase;
+    }
+
+    td {
+      background-color: #424f60;
+      border: 1px solid #000;
+      font-size: 2em;
+      height: 100px;
+      position: relative;
+      transition: background-color 350ms;
+      width: 100px;
+    }
+
+
+    td:not(.disabled):hover {
+      background-color: #4C5B6D;
+    }
+
+    td.disabled {
+      background-color: #323C47;
+    }
+
+    td .day {
+      color: #FFF;
+      position: absolute;
+      font-size: 0.8em;
+      left: 5px;
+      opacity: 0.2;
+      top: 5px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  </style>
 </head>
 <body>
-	<span id="tip"></span>
-	<p>TOTAL: <span id="total">0</span></p>
+  <div class="table-container">
+    <div class="month-selector">
+      <button class="button prev-button">⬅️</button>
+      <p class="month"></p>
+      <button class="button next-button">➡️</button>
+    </div>
 
-	<script src="https://d3js.org/d3.v4.min.js"></script>
+    <table>
+      <thead>
+        <tr>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
+        </tr>
+      </thead>
+
+      <tbody class="calendar"></tbody>
+    </table>
+  </div>
+
 	<script src="main.js"></script>
 </body>
 </html>

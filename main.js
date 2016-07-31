@@ -1,136 +1,109 @@
-function getData () {
-	return [
-		{
-			date: new Date('07-16-2016'),
-			action: 2,
-			location: 'HOME'
-		},
-		{
-			date: new Date('07-19-2016'),
-			action: 1,
-			location: 'TEMPELHOF'
-		},
-		{
-			date: new Date('07-21-2016'),
-			action: 1,
-			location: 'HOME'
-		},
-		{
-			date: new Date('07-22-2016'),
-			action: 1,
-			location: 'HOME'
-		},
-		{
-			date: new Date('07-26-2016'),
-			action: 1,
-			location: 'HOME'
-		},
-		{
-			date: new Date('07-27-2016'),
-			action: 1,
-			location: 'HOME'
-		},
-		{
-			date: new Date('07-29-2016'),
-			action: 1,
-			location: 'CATS’ HOME'
-		}
-	];
+var DATA = {
+  '16/7': '1⃣ 💥',
+  '19/7': '🌾 ⚡',
+  '21/7': '⚡',
+  '22/7': '⚡',
+  '26/7': '⚡',
+  '27/7': '⚡',
+  '29/7': '🐱🐱 ⚡',
+  '30/7': '🏊'
+};
+
+var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var START_DAY = 1;
+var START_MONTH = 7;
+var END_MONTH = 10;
+
+var monthSelector = document.querySelector('.month-selector');
+var prevMonthBtn = monthSelector.querySelector('.prev-button');
+var nextMonthBtn = monthSelector.querySelector('.next-button');
+var calendar = document.querySelector('.calendar');
+var currentMonth = new Date().getMonth() + 1;
+
+function init () {
+  initMonthSelector();
+  updateCurrentMonth();
 }
 
-var margin = {top: 30, right: 20, bottom: 30, left: 50};
-var width = 1024 - margin.left - margin.right;
-var height = 460 - margin.top - margin.bottom;
+function initMonthSelector () {
+  prevMonthBtn.addEventListener('click', goToPrevMonth);
+  nextMonthBtn.addEventListener('click', goToNextMonth);
+}
 
-var x = d3.scaleTime().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
+function updateCurrentMonth () {
+  toggleButtons(currentMonth);
+  monthSelector.querySelector('.month').innerHTML = MONTHS[currentMonth - 1];
+  initCalendar(currentMonth);
+}
 
-var svg = d3.select('body')
-	.append('svg')
-		.attr('width', width + margin.left + margin.right)
-		.attr('height', height + margin.top + margin.bottom)
-	.append('g')
-		.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+function goToNextMonth () {
+  currentMonth++;
+  updateCurrentMonth();
+}
 
-var xAxis = d3.axisBottom().scale(x);
-var yAxis = d3.axisLeft().scale(y).ticks(2);
+function goToPrevMonth () {
+  currentMonth--;
+  updateCurrentMonth();
+}
 
-var valueLine = d3.line()
-	.x(function (event) {
-		return x(event.date);
-	})
-	.y(function (event) {
-		return y(event.action);
-	});
+function toggleButtons (currentMonth) {
+  if (currentMonth === START_MONTH) {
+    prevMonthBtn.classList.add('hidden');
+  } else {
+    prevMonthBtn.classList.remove('hidden');
+  }
 
-var data = getData();
+  if (currentMonth === END_MONTH) {
+    nextMonthBtn.classList.add('hidden');
+  } else {
+    nextMonthBtn.classList.remove('hidden');
+  }
+}
 
-x.domain([new Date('07-09-2016'), new Date()]);
+function initCalendar (month) {
+  var calendarContent = '';
 
-y.domain([0, d3.max(data, function (event) {
-	return event.action;
-})]);
+  calendarContent += displayDays(month);
+  calendar.innerHTML = calendarContent;
+}
 
-var newData = x.ticks(20).map(function (date){
-	var foundEvent;
+function displayDays (month) {
+  var lastDay = 0;
+  var daysContent = '<tr>';
+  var daysOffset = new Date(currentMonth + '-1-2016').getDay();
 
-	for (var i = 0; i < data.length; i++){
-		if (data[i].date.toString() == date.toString()){
-			foundEvent = data[i];
-			break;
-		}
-	}
+  for (var i = 0; i < daysOffset - 1; i++) {
+    daysContent += '<td class="disabled"></td>';
+  }
 
-	return foundEvent || {date: date, action: 0};
-});
+  for (var day = START_DAY; day <= 31; day++) {
+    if (daysOffset % 7 === 1 && day !== 1) {
+      daysContent += '<tr>'
+    }
 
-var tip = document.getElementById('tip');
+    var formattedDate = month + '-' + day + '-2016';
+    var dayNumber = new Date(formattedDate).getDate();
 
+    if (dayNumber > lastDay) {
+      daysContent += addCell(day);
+    }
 
-svg.append('path')
-    .attr('class', 'line')
-    .attr('d', valueLine(newData));
+    lastDay = day;
 
-svg.append('g')
-    .attr('class', 'x axis')
-    .attr('transform', 'translate(0,' + height + ')')
-    .call(xAxis);
+    if (daysOffset % 7 === 0) {
+      daysContent += '</tr>';
+    }
 
-svg.append('g')
-    .attr('class', 'y axis')
-    .call(yAxis);
+    daysOffset++;
+  }
 
-svg.selectAll('dot')
-    .data(newData)
-	.enter()
-	.append('circle')
-	.on('mouseover', function (event) {
-		if (event.location) {
-			tip.innerHTML = event.location;
+  return daysContent;
+}
 
-			tip.classList.add('visible');
-			this.classList.add('bigger');
+function addCell (date) {
+  var data = DATA[date + '/' + currentMonth] || '';
 
-			var coordinates = d3.mouse(this);
+  return '<td>'+ data +'<span class="day">' + date + '</span></td>';
+}
 
-			tip.style.left = coordinates[0] + margin.left + 'px';
-			tip.style.top = coordinates[1] + margin.top + 'px';
-		}
-	})
-	.on('mouseout', function (event) {
-		if (event.location) {
-			tip.classList.remove('visible');
-			this.classList.remove('bigger');
-		}
-	})
-    .attr('r', 3.5)
-    .attr('cx', function (event) {
-    	return x(event.date);
-    })
-    .attr('cy', function(event) {
-    	return y(event.action);
-    });
-
-document.getElementById('total').innerHTML = data.reduce(function (prec, event) {
-	return prec + event.action;
-}, 0);
+init();
