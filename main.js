@@ -6,7 +6,7 @@ var DATA = {
   '26/7': '🌈 ⚡',
   '27/7': '🌈 ⚡',
   '29/7': '🐱🐱 💊 ⚡',
-  '30/7': '🏊'
+  '30/7': '🌈 🏊'
 };
 
 var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
