@@ -13,16 +13,18 @@
   };
 
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  var START_DAY = 1;
   var START_MONTH = 7;
   var END_MONTH = 10;
 
+  var cellTemplate = document.getElementById('cell-template');
   var monthSelector = document.querySelector('.month-selector');
   var monthHeader = monthSelector.querySelector('.month');
   var prevMonthBtn = monthSelector.querySelector('.prev-button');
   var nextMonthBtn = monthSelector.querySelector('.next-button');
   var calendar = document.querySelector('.calendar');
+
   var currentMonth = new Date().getMonth() + 1;
+  var weekOpened = false;
 
   function init () {
     updateCurrentMonth();
@@ -70,52 +72,73 @@
     calendar.innerHTML = displayMonth(month);
   }
 
-  function getDayNumber(month, day) {
-    var formattedDate = month + '/' + day + '/2016';
+  function openWeek () {
+    weekOpened = true;
+    return '<tr>';
+  }
 
-    return new Date(formattedDate).getDate();
+  function closeWeek () {
+    weekOpened = false;
+    return '</tr>';
   }
 
   function displayMonth (month) {
-    var lastDay = 0;
-    var daysOffset = new Date(currentMonth + '/1/2016').getDay();
-    var monthContent = '<tr>';
+    var monthContent = '';
+    var daysOffset = new Date(month + '/1/2016').getDay();
+    var lastSeenDay = 0;
 
-    for (var i = 0; i < daysOffset - 1; i++) {
-      monthContent += '<td class="disabled"></td>';
+    for (var i = 1; i < daysOffset; i++) {
+      if (i % 7 === 1) {
+        monthContent += openWeek();;
+      }
+
+      monthContent += addDisabledCell();
+
+      if (i % 7 === 0) {
+        monthContent += closeWeek();
+      }
     }
 
-    for (var day = START_DAY; day <= 31; day++) {
-      if (daysOffset % 7 === 1 && day !== 1) {
-        monthContent += '<tr>'
+    for (var day = daysOffset; day <= (31 + daysOffset - 1); day++) {
+      if (day % 7 === 1 && !weekOpened) {
+        monthContent += openWeek();
       }
 
-      var dayNumber = getDayNumber(month, day);
-
-      if (dayNumber > lastDay) {
-        monthContent += addCell(day);
+      if (month === 10 && (day - daysOffset + 1) > 16) {
+        monthContent += addDisabledCell();
+      } else {
+        monthContent += addCell(day - daysOffset + 1);
       }
 
-      if (daysOffset % 7 === 0) {
-        monthContent += '</tr>';
+      if (day % 7 === 0 && weekOpened) {
+        monthContent += closeWeek();
       }
 
-      lastDay = day;
-      daysOffset++;
+      lastSeenDay = day;
     }
 
     return monthContent;
   }
 
   function addCell (date) {
-    var data = DATA[date + '/' + currentMonth] || '';
+    return template(cellTemplate.innerHTML, {
+      DATE: date,
+      DATA: DATA[date + '/' + currentMonth] || ''
+    });
+  }
 
-    return `
-      <td>
-        <span class="day">${date}</span>
-        ${data}
-      </td>
-    `;
+  function addDisabledCell () {
+    return '<td class="disabled"></td>';
+  }
+
+  function template (input, values) {
+    values = values || {};
+
+    for (var key in values) {
+      input = input.replace(new RegExp('{' + key + '}', 'g'), values[key]);
+    }
+
+    return input;
   }
 
   init();
