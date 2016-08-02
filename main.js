@@ -9,7 +9,8 @@
     '29/7': '🌮 🐱🐱 💊 ⚡',
     '30/7': '🌈 🏊',
     '31/7': '👩🏽 ❤️ ⚡️',
-    '1/8': '🌈 🌮'
+    '1/8': '🌈 🌮',
+    '2/8': '🌈 🍔 ⚡'
   };
 
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
