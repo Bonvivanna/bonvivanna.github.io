@@ -82,6 +82,12 @@
     return '</tr>';
   }
 
+  function getDayNumber(month, day) {
+    var formattedDate = month + '/' + day + '/2016';
+
+    return new Date(formattedDate).getDate();
+  }
+
   function displayMonth (month) {
     var monthContent = '';
     var daysOffset = new Date(month + '/1/2016').getDay();
@@ -104,20 +110,27 @@
         monthContent += openWeek();
       }
 
-      if (month === 10 && (day - daysOffset + 1) > 16) {
+
+      var realDay = day - daysOffset + 1;
+
+      if (isInvalidDay(month, day, daysOffset)) {
         monthContent += addDisabledCell();
-      } else {
-        monthContent += addCell(day - daysOffset + 1);
+      } else if (getDayNumber(month, realDay) > lastSeenDay) {
+        monthContent += addCell(realDay);
+        lastSeenDay = realDay;
       }
 
       if (day % 7 === 0 && weekOpened) {
         monthContent += closeWeek();
       }
-
-      lastSeenDay = day;
     }
 
     return monthContent;
+  }
+
+  function isInvalidDay(month, day, daysOffset) {
+    return ((month === 7) && (day - daysOffset + 1) < 9) ||
+           ((month === 10 && (day - daysOffset + 1) > 16));
   }
 
   function addCell (date) {
