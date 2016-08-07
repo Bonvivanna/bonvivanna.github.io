@@ -13,7 +13,8 @@
     '2/8': '🌈 🍔 ⚡',
     '3/8': '🌈 ⚡️',
     '4/8': '🌈 🏚💤',
-    '5/8': '🌈 💥'
+    '5/8': '🌈 💥';
+    '7/8': '🌈 🍦 🍲 ⚡️ 🚄'
   };
 
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
