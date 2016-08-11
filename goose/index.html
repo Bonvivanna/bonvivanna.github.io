@@ -7,8 +7,9 @@
     .goose {
       background: url('sprite.png') no-repeat;
       position: absolute;
-      top: 50%;
       transform: translate(-50%, -50%);
+
+      transition: top 500ms;
     }
 
     .goose-1 {
@@ -97,39 +98,52 @@
   </div>
 
   <script type="text/javascript">
-    var FRAME_COUNT = 12;
-    var MAX_WIDTH = 250;
-    var goose = document.querySelector('.goose');
-    var i = 1;
-
-    var RIGHT = 39;
     var LEFT = 37;
+    var TOP = 38;
+    var RIGHT = 39;
+
+    var FRAME_COUNT = 12;
+    var ACTIVE_FRAME = 1;
+    var MAX_WIDTH = 250;
+    var MOVING_PIXELS = 10;
+    var JUMP_HEIGHT = 100;
+
+    var goose = document.querySelector('.goose');
 
     goose.style.left = (window.innerWidth / 2) + 'px';
+    goose.style.top = (window.innerHeight / 2) + 'px';
 
     document.addEventListener('keydown', function (e) {
       if (e.keyCode === RIGHT || e.keyCode === LEFT) {
-        goose.classList.remove('goose-' + i);
+        goose.classList.remove('goose-' + ACTIVE_FRAME);
 
         if (e.keyCode === RIGHT) {
-          i++;
+          ACTIVE_FRAME++;
 
           goose.classList.add('mirrored');
-          goose.style.left = Math.min((window.innerWidth - (MAX_WIDTH / 2)), parseInt(goose.style.left) + 5) + 'px';
+          goose.style.left = Math.min((window.innerWidth - (MAX_WIDTH / 2)), parseInt(goose.style.left) + MOVING_PIXELS) + 'px';
         } else if (e.keyCode === LEFT) {
-          i++;
+          ACTIVE_FRAME++;
 
           goose.classList.remove('mirrored');
-          goose.style.left = Math.max((MAX_WIDTH / 2), parseInt(goose.style.left) - 5) + 'px';
+          goose.style.left = Math.max((MAX_WIDTH / 2), parseInt(goose.style.left) - MOVING_PIXELS) + 'px';
         }
 
-        if (i < 1) {
-          i = FRAME_COUNT;
-        } else if (i > FRAME_COUNT) {
-          i = 1;
+        if (ACTIVE_FRAME < 1) {
+          ACTIVE_FRAME = FRAME_COUNT;
+        } else if (ACTIVE_FRAME > FRAME_COUNT) {
+          ACTIVE_FRAME = 1;
         }
 
-        goose.classList.add('goose-' + i);
+        goose.classList.add('goose-' + ACTIVE_FRAME);
+      } else if (e.keyCode === TOP) {
+        var oldTop = goose.style.top;
+
+        goose.style.top = (parseInt(goose.style.top) - JUMP_HEIGHT) + 'px';
+
+        setTimeout(function () {
+          goose.style.top = (parseInt(goose.style.top) + JUMP_HEIGHT) + 'px';
+        }, 500);
       }
     });
   </script>
