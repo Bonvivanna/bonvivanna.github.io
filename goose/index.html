@@ -115,12 +115,12 @@
           i++;
 
           goose.classList.add('mirrored');
-          goose.style.left = Math.min(window.innerWidth - MAX_WIDTH, parseInt(goose.style.left) + 5) + 'px';
+          goose.style.left = Math.min((window.innerWidth - (MAX_WIDTH / 2)), parseInt(goose.style.left) + 5) + 'px';
         } else if (e.keyCode === LEFT) {
           i++;
 
           goose.classList.remove('mirrored');
-          goose.style.left = Math.max(MAX_WIDTH, parseInt(goose.style.left) - 5) + 'px';
+          goose.style.left = Math.max((MAX_WIDTH / 2), parseInt(goose.style.left) - 5) + 'px';
         }
 
         if (i < 1) {
