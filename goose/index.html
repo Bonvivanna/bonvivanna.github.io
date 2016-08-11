@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GOOSE</title>
+  <style>
+    .goose {
+      background: url('sprite.png') no-repeat;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .goose-1 {
+      background-position: 0 -1px;
+      width: 188px;
+      height: 228px;
+    }
+
+    .goose-2 {
+      background-position: -4px -234px;
+      width: 198px;
+      height: 245px;
+    }
+
+    .goose-3 {
+      background-position: -2px -480px;
+      width: 221px;
+      height: 259px;
+    }
+
+    .goose-4 {
+      background-position: -231px 0;
+      width: 222px;
+      height: 228px;
+    }
+
+    .goose-5 {
+      background-position: -230px -237px;
+      width: 236px;
+      height: 235px;
+    }
+
+    .goose-6 {
+      background-position: -232px -480px;
+      width: 238px;
+      height: 250px;
+    }
+
+    .goose-7 {
+      background-position: -469px -6px;
+      width: 250px;
+      height: 227px;
+    }
+
+    .goose-8 {
+      background-position: -475px -236px;
+      width: 241px;
+      height: 239px;
+    }
+
+    .goose-9 {
+      background-position: -474px -482px;
+      width: 244px;
+      height: 252px;
+    }
+
+    .goose-10 {
+      background-position: -727px 0;
+      width: 273px;
+      height: 232px;
+    }
+
+    .goose-11 {
+      background-position: -728px -236px;
+      width: 254px;
+      height: 239px;
+    }
+
+    .goose-12 {
+      background-position: -728px -481px;
+      width: 267px;
+      height: 248px;
+    }
+
+    .mirrored {
+      -moz-transform: translate(-50%, -50%) scaleX(-1);
+      -o-transform: translate(-50%, -50%) scaleX(-1);
+      -webkit-transform: translate(-50%, -50%) scaleX(-1);
+      transform: translate(-50%, -50%) scaleX(-1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="goose goose-1">
+  </div>
+
+  <script type="text/javascript">
+    var FRAME_COUNT = 12;
+    var MAX_WIDTH = 250;
+    var goose = document.querySelector('.goose');
+    var i = 1;
+
+    var RIGHT = 39;
+    var LEFT = 37;
+
+    goose.style.left = (window.innerWidth / 2) + 'px';
+
+    document.addEventListener('keydown', function (e) {
+      if (e.keyCode === RIGHT || e.keyCode === LEFT) {
+        goose.classList.remove('goose-' + i);
+
+        if (e.keyCode === RIGHT) {
+          i++;
+
+          goose.classList.add('mirrored');
+          goose.style.left = Math.min(window.innerWidth - MAX_WIDTH, parseInt(goose.style.left) + 5) + 'px';
+        } else if (e.keyCode === LEFT) {
+          i++;
+
+          goose.classList.remove('mirrored');
+          goose.style.left = Math.max(MAX_WIDTH, parseInt(goose.style.left) - 5) + 'px';
+        }
+
+        if (i < 1) {
+          i = FRAME_COUNT;
+        } else if (i > FRAME_COUNT) {
+          i = 1;
+        }
+
+        goose.classList.add('goose-' + i);
+      }
+    });
+  </script>
+</body>
+</html>
