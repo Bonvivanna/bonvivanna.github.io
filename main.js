@@ -21,7 +21,8 @@
     '27/8': '🌈 ⚡️',
     '28/8': '🌈 🌈 🏊 ⚡️',
     '30/8': '🌈⚡️',
-    '9/9': '🌈 🌮 ⚡️'
+    '9/9': '🌈 🌮 ⚡️',
+    '10/9': '🌈 ⚡️'
   };
 
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
