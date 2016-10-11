@@ -43,7 +43,7 @@
     '4/10': '🌈 🌮 ⚡️',
     '5/10': '🌈 ⚡️',
     '7/10': '🌈 🔥 ⚡️',
-    '9/10': '🌈 ⚡️'
+    '9/10': '🌈 💻 ⚡️'
   };
 
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
